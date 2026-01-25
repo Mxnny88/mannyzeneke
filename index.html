@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Street Brawler - 2D Fighting Game</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <div id="loading-screen">
+            <h1>STREET BRAWLER</h1>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- Phaser 3 Game Framework -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+
+    <!-- Howler.js for Audio -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+
+    <!-- Game Scripts -->
+    <script src="js/utils/SpriteGenerator.js"></script>
+    <script src="js/characters/Fighter.js"></script>
+    <script src="js/characters/fighters/Ryu.js"></script>
+    <script src="js/characters/fighters/Ken.js"></script>
+    <script src="js/characters/fighters/Blaze.js"></script>
+    <script src="js/characters/fighters/Shadow.js"></script>
+    <script src="js/scenes/BootScene.js"></script>
+    <script src="js/scenes/MenuScene.js"></script>
+    <script src="js/scenes/CharacterSelectScene.js"></script>
+    <script src="js/scenes/FightScene.js"></script>
+    <script src="js/scenes/GameOverScene.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
