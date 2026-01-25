@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compressor Plugin</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="plugin-container">
+        <header class="plugin-header">
+            <h1>COMPRESSOR</h1>
+            <div class="power-section">
+                <button id="bypass-btn" class="bypass-btn" title="Bypass">
+                    <span class="power-icon">⏻</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="plugin-main">
+            <!-- Meters Section -->
+            <section class="meters-section">
+                <div class="meter-group">
+                    <label>INPUT</label>
+                    <div class="meter">
+                        <div class="meter-fill" id="input-meter-l"></div>
+                    </div>
+                    <div class="meter">
+                        <div class="meter-fill" id="input-meter-r"></div>
+                    </div>
+                </div>
+
+                <div class="meter-group gr-meter-group">
+                    <label>GR</label>
+                    <div class="meter gr-meter">
+                        <div class="meter-fill gr-fill" id="gr-meter"></div>
+                    </div>
+                </div>
+
+                <div class="meter-group">
+                    <label>OUTPUT</label>
+                    <div class="meter">
+                        <div class="meter-fill" id="output-meter-l"></div>
+                    </div>
+                    <div class="meter">
+                        <div class="meter-fill" id="output-meter-r"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Visualization Section -->
+            <section class="visualization-section">
+                <canvas id="transfer-curve" width="200" height="200"></canvas>
+                <div class="viz-label">Transfer Curve</div>
+            </section>
+
+            <!-- Controls Section -->
+            <section class="controls-section">
+                <div class="control-group">
+                    <div class="knob-container">
+                        <div class="knob" id="threshold-knob" data-param="threshold">
+                            <div class="knob-indicator"></div>
+                        </div>
+                        <label>THRESHOLD</label>
+                        <span class="value-display" id="threshold-value">-24 dB</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="knob-container">
+                        <div class="knob" id="ratio-knob" data-param="ratio">
+                            <div class="knob-indicator"></div>
+                        </div>
+                        <label>RATIO</label>
+                        <span class="value-display" id="ratio-value">4:1</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="knob-container">
+                        <div class="knob" id="attack-knob" data-param="attack">
+                            <div class="knob-indicator"></div>
+                        </div>
+                        <label>ATTACK</label>
+                        <span class="value-display" id="attack-value">10 ms</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="knob-container">
+                        <div class="knob" id="release-knob" data-param="release">
+                            <div class="knob-indicator"></div>
+                        </div>
+                        <label>RELEASE</label>
+                        <span class="value-display" id="release-value">100 ms</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="knob-container">
+                        <div class="knob" id="knee-knob" data-param="knee">
+                            <div class="knob-indicator"></div>
+                        </div>
+                        <label>KNEE</label>
+                        <span class="value-display" id="knee-value">6 dB</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="knob-container">
+                        <div class="knob" id="makeup-knob" data-param="makeup">
+                            <div class="knob-indicator"></div>
+                        </div>
+                        <label>MAKEUP</label>
+                        <span class="value-display" id="makeup-value">0 dB</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="knob-container">
+                        <div class="knob" id="mix-knob" data-param="mix">
+                            <div class="knob-indicator"></div>
+                        </div>
+                        <label>MIX</label>
+                        <span class="value-display" id="mix-value">100%</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Audio Source Section -->
+            <section class="source-section">
+                <div class="source-controls">
+                    <button id="load-audio-btn" class="source-btn">
+                        Load Audio File
+                    </button>
+                    <input type="file" id="audio-file-input" accept="audio/*" hidden>
+
+                    <button id="mic-btn" class="source-btn">
+                        Use Microphone
+                    </button>
+                </div>
+
+                <div class="transport-controls">
+                    <button id="play-btn" class="transport-btn" disabled>
+                        <span class="play-icon">▶</span>
+                    </button>
+                    <button id="stop-btn" class="transport-btn" disabled>
+                        <span class="stop-icon">■</span>
+                    </button>
+                </div>
+
+                <div class="file-info" id="file-info">No audio loaded</div>
+            </section>
+        </main>
+
+        <footer class="plugin-footer">
+            <span class="version">v1.0</span>
+            <span class="brand">Web Audio Compressor</span>
+        </footer>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
