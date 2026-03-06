@@ -1,0 +1,29 @@
+# Build output
+build/
+cmake-build-*/
+
+# IDE / editor
+.idea/
+.vscode/
+*.user
+*.suo
+*.sdf
+*.opensdf
+
+# macOS
+.DS_Store
+__MACOSX/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Compiled binaries (local installs)
+*.so
+*.dylib
+*.dll
+*.vst3
+*.component
+
+# Installer output
+Installer/Output/
