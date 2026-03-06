@@ -194,33 +194,51 @@ void PresetManager::writeFactoryPresetsIfNeeded()
 //──────────────────────────────────────────────────────────────────────────────
 void PresetManager::exportPreset (juce::Component* parentComponent)
 {
-    juce::FileChooser fc ("Export Preset", juce::File::getSpecialLocation(
-        juce::File::userDesktopDirectory), "*.xml");
+    // JUCE 7: FileChooser must be heap-allocated and use launchAsync
+    auto fc = std::make_shared<juce::FileChooser>(
+        "Export Preset",
+        juce::File::getSpecialLocation(juce::File::userDesktopDirectory),
+        "*.xml");
 
-    if (fc.browseForFileToSave(true))
-    {
-        auto file = fc.getResult().withFileExtension("xml");
-        auto state = apvts.copyState();
-        if (auto xml = state.createXml())
-            xml->writeTo(file);
-    }
+    auto& apvtsRef = apvts;
+    fc->launchAsync(juce::FileBrowserComponent::saveMode |
+                    juce::FileBrowserComponent::canSelectFiles,
+        [fc, &apvtsRef](const juce::FileChooser& chooser)
+        {
+            auto results = chooser.getResults();
+            if (!results.isEmpty())
+            {
+                auto file  = results[0].withFileExtension("xml");
+                auto state = apvtsRef.copyState();
+                if (auto xml = state.createXml())
+                    xml->writeTo(file);
+            }
+        });
     (void)parentComponent;
 }
 
 void PresetManager::importPreset (juce::Component* parentComponent)
 {
-    juce::FileChooser fc ("Import Preset", juce::File::getSpecialLocation(
-        juce::File::userDesktopDirectory), "*.xml");
+    auto fc = std::make_shared<juce::FileChooser>(
+        "Import Preset",
+        juce::File::getSpecialLocation(juce::File::userDesktopDirectory),
+        "*.xml");
 
-    if (fc.browseForFileToOpen())
-    {
-        auto file = fc.getResult();
-        if (auto xml = juce::XmlDocument::parse(file))
+    auto& apvtsRef = apvts;
+    fc->launchAsync(juce::FileBrowserComponent::openMode |
+                    juce::FileBrowserComponent::canSelectFiles,
+        [fc, &apvtsRef](const juce::FileChooser& chooser)
         {
-            auto state = juce::ValueTree::fromXml(*xml);
-            if (state.isValid())
-                apvts.replaceState(state);
-        }
-    }
+            auto results = chooser.getResults();
+            if (!results.isEmpty())
+            {
+                if (auto xml = juce::XmlDocument::parse(results[0]))
+                {
+                    auto state = juce::ValueTree::fromXml(*xml);
+                    if (state.isValid())
+                        apvtsRef.replaceState(state);
+                }
+            }
+        });
     (void)parentComponent;
 }

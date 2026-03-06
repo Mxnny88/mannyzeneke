@@ -71,6 +71,9 @@ target_link_libraries(ArpSequencer
         juce::juce_recommended_warning_flags
 )
 
+# ─── Generate JuceHeader.h (required for #include <JuceHeader.h>) ────────────
+juce_generate_juce_header(ArpSequencer)
+
 # ─── Include directories ─────────────────────────────────────────────────────
 target_include_directories(ArpSequencer
     PRIVATE
@@ -92,6 +95,12 @@ if(BUILD_TESTS)
             Source/StepSequencer.cpp
     )
     target_compile_definitions(ArpSequencerTests
+        PUBLIC
+            JUCE_WEB_BROWSER=0
+            JUCE_USE_CURL=0
+            JUCE_DISPLAY_SPLASH_SCREEN=0
+            JUCE_REPORT_APP_USAGE=0
+            JUCE_STRICT_REFCOUNTEDPOINTER=1
         PRIVATE
             JUCE_UNIT_TESTS=1
     )
@@ -103,6 +112,8 @@ if(BUILD_TESTS)
             juce::juce_recommended_config_flags
             juce::juce_recommended_warning_flags
     )
+    juce_generate_juce_header(ArpSequencerTests)
+
     target_include_directories(ArpSequencerTests
         PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}/Source

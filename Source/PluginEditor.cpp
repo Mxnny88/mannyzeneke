@@ -4,6 +4,13 @@
 using namespace juce;
 
 //==============================================================================
+// createEditor() – the one definition required by the plugin host
+juce::AudioProcessorEditor* ArpSequencerAudioProcessor::createEditor()
+{
+    return new ArpSequencerAudioProcessorEditor (*this);
+}
+
+//==============================================================================
 // Colour palette
 static const Colour BG_DARK     { 0xFF1A1A2E };
 static const Colour BG_MID      { 0xFF16213E };
@@ -560,17 +567,27 @@ void PresetBar::populatePresetBox()
 
 void PresetBar::onSave()
 {
-    AlertWindow::showInputBoxAsync("Save Preset", "Enter preset name:",
-        processor.getPresetNames()[processor.getCurrentProgram()],
-        nullptr, [this](const String& name) {
-            if (name.isNotEmpty())
+    // JUCE 7: use a simple AlertWindow with an input field
+    auto* aw = new AlertWindow("Save Preset", "Enter preset name:", AlertWindow::NoIcon);
+    aw->addTextEditor("name", processor.getPresetNames()[processor.getCurrentProgram()]);
+    aw->addButton("OK",     1, KeyPress(KeyPress::returnKey));
+    aw->addButton("Cancel", 0, KeyPress(KeyPress::escapeKey));
+
+    aw->enterModalState(true,
+        ModalCallbackFunction::create([this, aw](int result)
+        {
+            if (result == 1)
             {
-                int idx = presetBox.getSelectedId() - 1;
-                if (idx < 0) idx = 0;
-                processor.savePreset(idx, name);
-                populatePresetBox();
+                String name = aw->getTextEditorContents("name");
+                if (name.isNotEmpty())
+                {
+                    int idx = presetBox.getSelectedId() - 1;
+                    if (idx < 0) idx = 0;
+                    processor.savePreset(idx, name);
+                    populatePresetBox();
+                }
             }
-        });
+        }), true);
 }
 
 void PresetBar::onLoad()
@@ -603,9 +620,10 @@ void PresetBar::paint (Graphics& g)
 //==============================================================================
 ArpSequencerAudioProcessorEditor::CustomLookAndFeel::CustomLookAndFeel()
 {
-    setColour(Slider::thumbColourId,       ACCENT);
-    setColour(Slider::rotarySliderFillId,  ACCENT);
-    setColour(Slider::trackColourId,       BG_PANEL);
+    setColour(Slider::thumbColourId,              ACCENT);
+    setColour(Slider::rotarySliderFillColourId,   ACCENT);
+    setColour(Slider::rotarySliderOutlineColourId,BG_PANEL);
+    setColour(Slider::trackColourId,              BG_PANEL);
     setColour(ComboBox::backgroundColourId,BG_PANEL);
     setColour(ComboBox::textColourId,      TEXT_BRIGHT);
     setColour(ComboBox::arrowColourId,     ACCENT);
