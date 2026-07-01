@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Rising arpeggio bars -->
+    <path android:fillColor="#7C5CFF"
+        android:pathData="M30,66h8v12h-8z" />
+    <path android:fillColor="#8E6CFF"
+        android:pathData="M42,56h8v22h-8z" />
+    <path android:fillColor="#A47EFF"
+        android:pathData="M54,46h8v32h-8z" />
+    <path android:fillColor="#BA90FF"
+        android:pathData="M66,36h8v42h-8z" />
+    <!-- Note head -->
+    <path android:fillColor="#00E5B0"
+        android:pathData="M70,30m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0" />
+</vector>
